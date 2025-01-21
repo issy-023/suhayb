@@ -7,9 +7,10 @@ module.exports = defineConfig({
     open: true, // Open automatisch in browser
     proxy: {
       "/api": {
-        target: "http://167.71.15.21:8084", // Correct API address
+        target: "http://167.71.15.21:8084", // HTTP backend
         changeOrigin: true,
-        pathRewrite: { "^/api": "" }, // Modify path if necessary
+        pathRewrite: { "^/api": "/api/v1/User" },
+        secure: false, // Bypass SSL for development
       },
     },
   },
