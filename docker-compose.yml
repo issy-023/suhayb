@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  election-backend:
+    build:
+      context: ./election-backend
+      dockerfile: Dockerfile
+    container_name: election-backend
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://oege.ie.hva.nl:3306/zahmedsm1
+      SPRING_DATASOURCE_USERNAME: ahmedsm1
+      SPRING_DATASOURCE_PASSWORD: Yisc.S7#C2beDN$2
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+    networks:
+      - election-network
+
+  election-frontend:
+    build:
+      context: ./election-frontend
+      dockerfile: Dockerfile
+    container_name: election-frontend
+    ports:
+      - "8080:8080"
+    environment:
+      - VITE_BACKEND_URL=http://election-backend:8084
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  election-network:
+    driver: bridge
+  app-network:
+    driver: bridge
