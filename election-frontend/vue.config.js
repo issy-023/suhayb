@@ -1,4 +1,4 @@
-const { defineConfig } = require('@vue/cli-service');
+const { defineConfig } = require("@vue/cli-service");
 
 module.exports = defineConfig({
   transpileDependencies: true, // Transpileer afhankelijkheden indien nodig
@@ -6,17 +6,17 @@ module.exports = defineConfig({
     port: 8080, // Pas de poort aan indien nodig
     open: true, // Open automatisch in browser
     proxy: {
-      '/api': {
-        target: 'http://localhost:3000', // Proxy voor API-aanroepen
+      "/api": {
+        target: "http://167.71.15.21:8084", // Correct API address
         changeOrigin: true,
-        pathRewrite: { '^/api': '' },
+        pathRewrite: { "^/api": "" }, // Modify path if necessary
       },
     },
   },
   configureWebpack: {
     resolve: {
       alias: {
-        '@': require('path').resolve(__dirname, 'src'), // Alias naar 'src'
+        "@": require("path").resolve(__dirname, "src"), // Alias naar 'src'
       },
     },
   },
