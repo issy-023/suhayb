@@ -6,27 +6,29 @@
         <div class="form-group full-width">
           <label for="username" class="left-label">Username:</label>
           <input
-              type="text"
-              id="username"
-              v-model="username"
-              placeholder="Fill in Username"
-              required
+            type="text"
+            id="username"
+            v-model="username"
+            placeholder="Fill in Username"
+            required
           />
         </div>
 
         <div class="form-group full-width">
           <label for="password" class="left-label">Password:</label>
           <input
-              :type="showPassword ? 'text' : 'password'"
-              id="password"
-              v-model="password"
-              placeholder="Fill in Password"
-              required
+            :type="showPassword ? 'text' : 'password'"
+            id="password"
+            v-model="password"
+            placeholder="Fill in Password"
+            required
           />
         </div>
 
         <div class="forgot-password">
-          <router-link to="/ForgotPassword">Forgot password? Click here</router-link>
+          <router-link to="/ForgotPassword"
+            >Forgot password? Click here</router-link
+          >
         </div>
 
         <button type="submit">Login</button>
@@ -36,9 +38,8 @@
   </div>
 </template>
 <script>
-import { authState } from '../authState';
-import {API_URL} from "@/config";
-
+import { authState } from "../authState";
+import { API_URL } from "@/config";
 
 export default {
   name: "LoginComponent",
@@ -47,7 +48,7 @@ export default {
       username: "",
       password: "",
       showPassword: false,
-      errorMessage: ""
+      errorMessage: "",
     };
   },
   methods: {
@@ -67,10 +68,7 @@ export default {
 
         // Send login request to the backend
         const response = await fetch(`${API_URL}/api/v1/User/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          method: "POST",
           body: JSON.stringify({
             username: this.username,
             password: this.password,
@@ -95,8 +93,8 @@ export default {
         // Validate the response structure
         if (user && user.token) {
           // Store the token and username in localStorage
-          localStorage.setItem('token', user.token);
-          localStorage.setItem('username', user.username);
+          localStorage.setItem("token", user.token);
+          localStorage.setItem("username", user.username);
           authState.isLoggedIn = true;
 
           // Redirect to profile
@@ -114,11 +112,11 @@ export default {
 
     // Centralized API request function with JWT token handling
     async apiRequest(url, options = {}) {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
         options.headers = {
           ...options.headers,
-          'Authorization': `Bearer ${token}` // Attach JWT token to the headers
+          Authorization: `Bearer ${token}`, // Attach JWT token to the headers
         };
       }
       const response = await fetch(url, options);
@@ -126,16 +124,16 @@ export default {
       // Handle unauthorized case globally
       if (response.status === 401) {
         this.errorMessage = "Session expired. Please log in again.";
-        localStorage.removeItem('token'); // Optionally, clear token on 401 errors
+        localStorage.removeItem("token"); // Optionally, clear token on 401 errors
         this.$router.push("/"); // Redirect to login
       }
       return response;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300..900&display=swap");
 
 * {
   font-family: "Outfit", sans-serif;
